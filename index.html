@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keytipillar — Power Your Colony</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --text: #e2e2f0;
+      --dim: #6b6b8a;
+      --gold: #f5c842;
+      --gold-dim: #c9a030;
+      --green: #4ade80;
+      --blue: #60a5fa;
+      --purple: #a78bfa;
+      --red: #f87171;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { color: var(--dim); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--gold);
+      color: #000;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-dim); color: #000 !important; }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 100px 20px 60px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,200,66,0.1);
+      border: 1px solid rgba(245,200,66,0.3);
+      color: var(--gold);
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 24px;
+    }
+    .hero h1 .accent { color: var(--gold); }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--dim);
+      line-height: 1.7;
+      max-width: 580px;
+      margin: 0 auto 48px;
+    }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--gold);
+      color: #000;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-dim); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: var(--dim); }
+
+    /* ── Cost strip ── */
+    .cost-strip {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 24px 20px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-wrap: wrap;
+    }
+    .cost-item { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; }
+    .cost-item .badge {
+      background: rgba(74,222,128,0.15);
+      color: var(--green);
+      border: 1px solid rgba(74,222,128,0.3);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .cost-item .badge.paid {
+      background: rgba(245,200,66,0.15);
+      color: var(--gold);
+      border-color: rgba(245,200,66,0.3);
+    }
+    .cost-item span { color: var(--dim); }
+
+    /* ── Steps ── */
+    .section { padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section h2 {
+      text-align: center;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 56px;
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 24px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 31px;
+      top: 64px;
+      width: 2px;
+      height: calc(100% - 24px);
+      background: var(--border);
+    }
+    .step-num {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--gold);
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .step-body { padding: 12px 0 48px; }
+    .step-body h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .step-body p { color: var(--dim); line-height: 1.6; font-size: 0.95rem; margin-bottom: 16px; }
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+    .step-tag.free { background: rgba(74,222,128,0.12); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .step-tag.paid { background: rgba(245,200,66,0.12); color: var(--gold); border: 1px solid rgba(245,200,66,0.25); }
+    .step-tag.install { background: rgba(96,165,250,0.12); color: var(--blue); border: 1px solid rgba(96,165,250,0.25); }
+    .step-tag.launch { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+
+    .code-block {
+      background: #0d0d15;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      font-size: 0.85rem;
+      color: var(--green);
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+    .code-block .dim { color: var(--dim); }
+
+    /* ── Validator ── */
+    .validator-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 20px;
+    }
+    .validator-inner { max-width: 640px; margin: 0 auto; }
+    .validator-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      margin-top: 40px;
+    }
+    .field-group { margin-bottom: 20px; }
+    .field-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--dim);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+    }
+    .field-group input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field-group input:focus { border-color: var(--gold); }
+    .field-group input::placeholder { color: var(--dim); opacity: 0.5; }
+    .validate-btn {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+    .validate-btn:hover { background: var(--gold-dim); }
+    .validate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .validator-notice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+    #val-result { margin-top: 20px; display: none; }
+    .result-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-icon { font-size: 1.1rem; width: 24px; text-align: center; }
+    .result-label { flex: 1; }
+    .result-status { font-weight: 600; font-size: 0.85rem; }
+    .result-status.ok { color: var(--green); }
+    .result-status.fail { color: var(--red); }
+    .result-status.checking { color: var(--gold); }
+
+    /* ── Pricing ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+    }
+    .price-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, rgba(245,200,66,0.05), var(--surface));
+    }
+    .featured-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: #000;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .price-name { font-size: 0.8rem; font-weight: 700; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+    .price-amount { font-size: 2.4rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+    .price-period { font-size: 0.82rem; color: var(--dim); margin-bottom: 24px; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .price-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.88rem; color: var(--dim); }
+    .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .price-features li.dim-feat::before { color: var(--dim); }
+    .price-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .price-btn.gold { background: var(--gold); color: #000; }
+    .price-btn.gold:hover { background: var(--gold-dim); }
+    .price-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .price-btn.outline:hover { border-color: var(--dim); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--dim);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    footer a { color: var(--dim); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 20px 40px; }
+      .cost-strip { gap: 20px; }
+      footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">key<span>tipillar</span></div>
+  <div class="nav-links">
+    <a href="#setup">Setup</a>
+    <a href="#validate">Validate Keys</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://aint.farm" target="_blank">AInt.farm</a>
+    <a href="https://colony.aint.farm" class="nav-cta" target="_blank">Open Colony →</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-badge">🐛 → 🦋 &nbsp;Your colony, your keys, your intelligence</div>
+  <h1>Power your<br><span class="accent">AInt.farm colony</span><br>in 4 steps</h1>
+  <p>Get your Gemini and Claude API keys, install the colony stack, and launch your own AI workforce — no technical background required.</p>
+  <div class="hero-actions">
+    <a href="#setup" class="btn-primary">Get Started Free →</a>
+    <a href="#validate" class="btn-ghost">Validate My Keys</a>
+  </div>
+</section>
+
+<!-- Cost strip -->
+<div class="cost-strip">
+  <div class="cost-item">
+    <div class="badge">FREE</div>
+    <span>Gemini API key — Google AI Studio</span>
+  </div>
+  <div class="cost-item">
+    <div class="badge paid">~$5</div>
+    <span>Claude API credit — Anthropic Console</span>
+  </div>
+  <div class="cost-item">
+    <div class="badge">FREE</div>
+    <span>Colony stack — open source</span>
+  </div>
+  <div class="cost-item">
+    <div class="badge paid">~$2–5/mo</div>
+    <span>Estimated running cost (light use)</span>
+  </div>
+</div>
+
+<!-- Setup Steps -->
+<section class="section" id="setup">
+  <div class="section-label">The Setup</div>
+  <h2>From zero to colony in minutes</h2>
+  <div class="steps">
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-tag free">✦ Free</div>
+        <h3 style="margin-top:12px">Get your Gemini API key</h3>
+        <p>Google gives you free access to Gemini 2.5 Flash — the model powering your colony's main intelligence. No credit card required. 30 seconds to get the key.</p>
+        <a href="https://aistudio.google.com/apikey" target="_blank" class="btn-primary" style="font-size:0.9rem; padding:10px 22px">Open Google AI Studio →</a>
+        <p style="margin-top:12px; font-size:0.85rem;">Copy the key that starts with <code style="color:var(--green)">AIza...</code> — you'll need it in Step 4.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-tag paid">✦ ~$5</div>
+        <h3 style="margin-top:12px">Get your Claude API key</h3>
+        <p>Anthropic's Claude powers your colony's memory (SOMA), synthesis, and deep reasoning. A $5 credit gets you 2–3 months of typical colony usage.</p>
+        <a href="https://console.anthropic.com" target="_blank" class="btn-primary" style="font-size:0.9rem; padding:10px 22px">Open Anthropic Console →</a>
+        <p style="margin-top:12px; font-size:0.85rem;">Create a key that starts with <code style="color:var(--green)">sk-ant-...</code> — keep it secret, never share it.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-tag install">✦ Install</div>
+        <h3 style="margin-top:12px">Install the colony stack</h3>
+        <p>The colony runs locally on your machine using Node.js. Clone the repo and install dependencies — this is a one-time setup.</p>
+        <p style="font-size:0.85rem;">Requires: <strong>Node.js 18+</strong> and <strong>Git</strong>. <a href="https://nodejs.org" target="_blank" style="color:var(--blue)">Install Node.js →</a></p>
+        <div class="code-block">
+          <div class="dim"># Clone and install</div>
+          git clone https://github.com/jafstar/syncagent-v2.git colony<br>
+          cd colony<br>
+          npm install
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-tag launch">✦ Launch</div>
+        <h3 style="margin-top:12px">Configure and launch</h3>
+        <p>Create your environment file with your keys, then start the colony. All your agents wake up automatically.</p>
+        <div class="code-block">
+          <div class="dim"># Create your .env file</div>
+          ANTHROPIC_API_KEY=sk-ant-your-key-here<br>
+          GEMINI_API_KEY=AIza-your-key-here<br><br>
+          <div class="dim"># Launch the colony</div>
+          node colony.mjs
+        </div>
+        <p style="margin-top:12px; font-size:0.85rem;">Your colony is live. Open <a href="https://colony.aint.farm" target="_blank" style="color:var(--blue)">colony.aint.farm</a> to start directing it.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Key Validator -->
+<section class="validator-section" id="validate">
+  <div class="validator-inner">
+    <div class="section-label" style="text-align:center">Key Validator</div>
+    <h2 style="text-align:center; font-size:clamp(1.6rem,4vw,2.2rem); font-weight:800; margin-bottom:12px">Test your keys before you launch</h2>
+    <p style="text-align:center; color:var(--dim); font-size:0.95rem;">Paste your keys and we'll confirm they're active. Keys are tested client-side and never stored or logged.</p>
+
+    <div class="validator-card">
+      <div class="field-group">
+        <label>ANTHROPIC_API_KEY</label>
+        <input type="password" id="claude-key" placeholder="sk-ant-..." autocomplete="off" spellcheck="false">
+      </div>
+      <div class="field-group">
+        <label>GEMINI_API_KEY</label>
+        <input type="password" id="gemini-key" placeholder="AIza..." autocomplete="off" spellcheck="false">
+      </div>
+      <button class="validate-btn" onclick="validateKeys()">Validate Keys</button>
+
+      <div id="val-result">
+        <div class="result-row">
+          <div class="result-icon">🤖</div>
+          <div class="result-label">Claude (Anthropic)</div>
+          <div class="result-status checking" id="claude-status">Checking...</div>
+        </div>
+        <div class="result-row">
+          <div class="result-icon">✨</div>
+          <div class="result-label">Gemini (Google)</div>
+          <div class="result-status checking" id="gemini-status">Checking...</div>
+        </div>
+      </div>
+
+      <div class="validator-notice">
+        <span>🔒</span>
+        <span>Your keys are tested directly from your browser to each provider's API. They are never sent to our servers, stored, or logged. This page has no backend.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2>Your keys, your colony, your call</h2>
+  <p style="text-align:center; color:var(--dim); max-width:520px; margin:0 auto; font-size:0.95rem; margin-bottom:0;">You always pay Anthropic and Google directly for API usage. Keytipillar charges for colony management tools and support on top of your own keys.</p>
+
+  <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-name">Scout</div>
+      <div class="price-amount">$0</div>
+      <div class="price-period">forever free</div>
+      <ul class="price-features">
+        <li>4-step setup guide</li>
+        <li>Key validator tool</li>
+        <li>Colony starter config</li>
+        <li>Community support</li>
+        <li class="dim-feat" style="opacity:0.4">Key health dashboard</li>
+        <li class="dim-feat" style="opacity:0.4">Premium runner configs</li>
+      </ul>
+      <button class="price-btn outline" onclick="document.getElementById('setup').scrollIntoView({behavior:'smooth'})">Start Setup →</button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="featured-badge">MOST POPULAR</div>
+      <div class="price-name">Cultivator</div>
+      <div class="price-amount">$9<span style="font-size:1rem; font-weight:400; color:var(--dim)">/mo</span></div>
+      <div class="price-period">billed monthly</div>
+      <ul class="price-features">
+        <li>Everything in Scout</li>
+        <li>Key health dashboard</li>
+        <li>Usage alerts + top-up reminders</li>
+        <li>Premium runner configurations</li>
+        <li>Priority email support</li>
+        <li>Early access to new runners</li>
+      </ul>
+      <button class="price-btn gold" onclick="alert('Stripe coming soon — join the waitlist at aint.farm')">Get Cultivator →</button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-name">Orchestrator</div>
+      <div class="price-amount">$29<span style="font-size:1rem; font-weight:400; color:var(--dim)">/mo</span></div>
+      <div class="price-period">billed monthly</div>
+      <ul class="price-features">
+        <li>Everything in Cultivator</li>
+        <li>Multi-colony management</li>
+        <li>Custom runner development</li>
+        <li>Advanced SOMA configuration</li>
+        <li>1-on-1 onboarding call</li>
+        <li>Direct support channel</li>
+      </ul>
+      <button class="price-btn outline" onclick="alert('Stripe coming soon — join the waitlist at aint.farm')">Get Orchestrator →</button>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="logo" style="font-size:1rem">key<span style="color:var(--gold)">tipillar</span></div>
+  <div class="footer-links">
+    <a href="https://aint.farm" target="_blank">AInt.farm</a>
+    <a href="https://colony.aint.farm" target="_blank">Colony</a>
+    <a href="https://console.anthropic.com" target="_blank">Anthropic</a>
+    <a href="https://aistudio.google.com" target="_blank">Google AI Studio</a>
+  </div>
+  <span>© 2026 Keytipillar · Built by the colony</span>
+</footer>
+
+<script>
+async function validateKeys() {
+  const claudeKey  = document.getElementById('claude-key').value.trim();
+  const geminiKey  = document.getElementById('gemini-key').value.trim();
+
+  if (!claudeKey && !geminiKey) {
+    alert('Paste at least one key to validate.');
+    return;
+  }
+
+  const result = document.getElementById('val-result');
+  result.style.display = 'block';
+
+  const claudeStatus = document.getElementById('claude-status');
+  const geminiStatus = document.getElementById('gemini-status');
+
+  claudeStatus.textContent = claudeKey ? 'Checking...' : '—';
+  claudeStatus.className   = 'result-status checking';
+  geminiStatus.textContent = geminiKey ? 'Checking...' : '—';
+  geminiStatus.className   = 'result-status checking';
+
+  document.querySelector('.validate-btn').disabled = true;
+
+  // Test Claude
+  if (claudeKey) {
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': claudeKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 10,
+          messages: [{ role: 'user', content: 'hi' }],
+        }),
+      });
+      if (resp.ok) {
+        claudeStatus.textContent = '✓ Valid';
+        claudeStatus.className = 'result-status ok';
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        claudeStatus.textContent = err.error?.type === 'authentication_error' ? '✗ Invalid key' : `✗ ${resp.status}`;
+        claudeStatus.className = 'result-status fail';
+      }
+    } catch {
+      claudeStatus.textContent = '✗ Network error';
+      claudeStatus.className = 'result-status fail';
+    }
+  }
+
+  // Test Gemini
+  if (geminiKey) {
+    try {
+      const resp = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: 'hi' }] }] }),
+        }
+      );
+      if (resp.ok) {
+        geminiStatus.textContent = '✓ Valid';
+        geminiStatus.className = 'result-status ok';
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        const msg = err.error?.status === 'PERMISSION_DENIED' || err.error?.status === 'INVALID_ARGUMENT'
+          ? '✗ Invalid key' : `✗ ${resp.status}`;
+        geminiStatus.textContent = msg;
+        geminiStatus.className = 'result-status fail';
+      }
+    } catch {
+      geminiStatus.textContent = '✗ Network error';
+      geminiStatus.className = 'result-status fail';
+    }
+  }
+
+  document.querySelector('.validate-btn').disabled = false;
+}
+</script>
+
+</body>
+</html>
