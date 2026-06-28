@@ -371,6 +371,53 @@
     .price-btn.outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
     .price-btn.outline:hover { border-color: var(--dim); }
 
+    /* ── No Terminal ── */
+    .alt-section {
+      padding: 80px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .alt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+    .alt-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+    .alt-card:hover { border-color: var(--dim); }
+    .alt-icon { font-size: 2rem; margin-bottom: 16px; }
+    .alt-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .alt-card p { color: var(--dim); font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
+    .alt-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+    .alt-tag.rec { background: rgba(74,222,128,0.12); color: var(--green); border: 1px solid rgba(74,222,128,0.25); }
+    .alt-tag.good { background: rgba(96,165,250,0.12); color: var(--blue); border: 1px solid rgba(96,165,250,0.25); }
+    .alt-tag.adv { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.25); }
+    .alt-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .alt-btn:hover { border-color: var(--dim); }
+
     /* ── Footer ── */
     footer {
       border-top: 1px solid var(--border);
@@ -540,6 +587,44 @@
         <span>Your keys are tested directly from your browser to each provider's API. They are never sent to our servers, stored, or logged. This page has no backend.</span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- No Terminal -->
+<section class="alt-section" id="no-terminal">
+  <div class="section-label">No Terminal? No Problem</div>
+  <h2 style="text-align:center; font-size:clamp(1.6rem,4vw,2.4rem); font-weight:800; letter-spacing:-0.5px; margin-bottom:12px">Not a developer? Start here.</h2>
+  <p style="text-align:center; color:var(--dim); max-width:540px; margin:0 auto; font-size:0.95rem;">You don't need to install anything on your computer. These paths get your colony running in minutes without ever opening a terminal.</p>
+
+  <div class="alt-grid">
+
+    <div class="alt-card">
+      <div class="alt-icon">☁️</div>
+      <div class="alt-tag rec">★ Recommended</div>
+      <h3>GitHub Codespaces</h3>
+      <p>Click one button and get a full VS Code editor in your browser — Node.js already installed. Your colony runs in GitHub's cloud on their free tier (60 hrs/month). Works on any device including iPad.</p>
+      <p style="font-size:0.82rem; color:var(--green);">Free · No install · Works anywhere</p>
+      <a href="https://github.com/jafstar/syncagent-v2" target="_blank" class="alt-btn">Open in Codespaces →</a>
+    </div>
+
+    <div class="alt-card">
+      <div class="alt-icon">🚂</div>
+      <div class="alt-tag good">Always-On</div>
+      <h3>Railway Deploy</h3>
+      <p>One click deploys the colony to Railway's servers. Your colony runs 24/7 using your own API keys stored as environment variables. Interact through the colony.aint.farm PWA from any device.</p>
+      <p style="font-size:0.82rem; color:var(--blue);">~$5/mo · 24/7 uptime · No local setup</p>
+      <a href="#" class="alt-btn" onclick="alert('Railway deploy button coming soon!')">Deploy to Railway →</a>
+    </div>
+
+    <div class="alt-card">
+      <div class="alt-icon">🐳</div>
+      <div class="alt-tag adv">Advanced</div>
+      <h3>Docker Desktop</h3>
+      <p>Download Docker Desktop (a GUI app), then use the Open in Docker button. Runs the full colony locally in an isolated container — no Node.js or Git installation needed.</p>
+      <p style="font-size:0.82rem; color:var(--purple);">Free · Local · No Node.js needed</p>
+      <a href="https://www.docker.com/products/docker-desktop/" target="_blank" class="alt-btn">Get Docker Desktop →</a>
+    </div>
+
   </div>
 </section>
 
